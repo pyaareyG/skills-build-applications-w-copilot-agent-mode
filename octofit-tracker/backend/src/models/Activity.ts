@@ -7,7 +7,7 @@ const activitySchema = new mongoose.Schema(
     durationMinutes: { type: Number, required: true },
     date: { type: Date, default: Date.now }
   },
-  { timestamps: true }
+  { collection: 'activities', timestamps: true }
 );
 
-export const Activity = mongoose.model('Activity', activitySchema);
+export default mongoose.model('Activity', activitySchema);
