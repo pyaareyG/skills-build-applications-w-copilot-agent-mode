@@ -1,14 +1,23 @@
-import ResourceTable from './ResourceTable.jsx'
 
-const columns = [
-  { label: 'Team', render: (team) => team.name ?? 'Unnamed team' },
-  { label: 'Coach', render: (team) => team.coach?.name ?? team.coach ?? 'Not assigned' },
-  { label: 'Members', render: (team) => Array.isArray(team.members) ? team.members.length : team.memberCount ?? 0 },
-  { label: 'Points', render: (team) => team.points ?? team.score ?? 0 },
-]
+import { getApiBaseUrl, useFetch } from '../lib/api';
 
-function Teams() {
-  return <ResourceTable title="Teams" resource="teams" columns={columns} emptyMessage="No teams have been created yet." />
+export default function Teams() {
+  const { data: teams, loading, error } = useFetch('/api/teams');
+
+  return (
+    <div className="container py-5">
+      <h2>Teams</h2>
+      <p className="text-muted">Using API endpoint: <code>{`${getApiBaseUrl()}/api/teams`}</code></p>
+      {loading && <p>Loading teams...</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {!loading && !error && (!teams || teams.length === 0) && <p>No teams found.</p>}
+      {!loading && !error && teams && teams.length > 0 && (
+        <ul className="list-group">
+          {teams.map((item, index) => (
+            <li className="list-group-item" key={index}>{JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
-
-export default Teams

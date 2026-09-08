@@ -1,14 +1,22 @@
-import ResourceTable from './ResourceTable.jsx'
+import { getApiBaseUrl, useFetch } from '../lib/api';
 
-const columns = [
-  { label: 'Workout', render: (workout) => workout.name ?? workout.title ?? workout.type ?? 'Workout' },
-  { label: 'Difficulty', render: (workout) => workout.difficulty ?? workout.level ?? 'All levels' },
-  { label: 'Duration', render: (workout) => `${workout.durationMinutes ?? workout.duration ?? 0} min` },
-  { label: 'Focus', render: (workout) => workout.focus ?? workout.description ?? 'General fitness' },
-]
+export default function Workouts() {
+  const { data: workouts, loading, error } = useFetch('/api/workouts');
 
-function Workouts() {
-  return <ResourceTable title="Workouts" resource="workouts" columns={columns} emptyMessage="No workout suggestions are available yet." />
+  return (
+    <div className="container py-5">
+      <h2>Workouts</h2>
+      <p className="text-muted">Using API endpoint: <code>{`${getApiBaseUrl()}/api/workouts`}</code></p>
+      {loading && <p>Loading workouts...</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {!loading && !error && (!workouts || workouts.length === 0) && <p>No workouts found.</p>}
+      {!loading && !error && workouts && workouts.length > 0 && (
+        <ul className="list-group">
+          {workouts.map((item, index) => (
+            <li className="list-group-item" key={index}>{JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
-
-export default Workouts

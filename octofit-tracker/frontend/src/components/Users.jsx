@@ -1,13 +1,22 @@
-import ResourceTable from './ResourceTable.jsx'
+import { getApiBaseUrl, useFetch } from '../lib/api';
 
-const columns = [
-  { label: 'Name', render: (user) => user.name ?? 'Unnamed student' },
-  { label: 'Email', render: (user) => user.email ?? 'Not provided' },
-  { label: 'Team', render: (user) => user.team?.name ?? user.team ?? 'Independent' },
-]
+export default function Users() {
+  const { data: users, loading, error } = useFetch('/api/users');
 
-function Users() {
-  return <ResourceTable title="Users" resource="users" columns={columns} emptyMessage="No users have joined OctoFit yet." />
+  return (
+    <div className="container py-5">
+      <h2>Users</h2>
+      <p className="text-muted">Using API endpoint: <code>{`${getApiBaseUrl()}/api/users`}</code></p>
+      {loading && <p>Loading users...</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {!loading && !error && (!users || users.length === 0) && <p>No users found.</p>}
+      {!loading && !error && users && users.length > 0 && (
+        <ul className="list-group">
+          {users.map((item, index) => (
+            <li className="list-group-item" key={index}>{JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
-
-export default Users
