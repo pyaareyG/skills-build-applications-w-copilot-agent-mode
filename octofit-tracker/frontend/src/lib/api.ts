@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
 
+interface ImportMetaEnv {
+  readonly VITE_CODESPACE_NAME?: string;
+}
+
+declare global {
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
+}
+
 export const getApiBaseUrl = () => {
   const codespace = import.meta.env.VITE_CODESPACE_NAME;
   return codespace && codespace.trim() !== ''
