@@ -1,10 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { apiUrl, getResults } from '../api.js'
+
+function formatCellValue(value) {
+  if (value === null || value === undefined) {
+    return ''
+  }
+  return typeof value === 'object' ? JSON.stringify(value) : String(value)
+}
+
+// Falls back to auto-derived columns from the first record's keys when no columns are supplied.
+function deriveColumns(items) {
+  const keys = Object.keys(items[0] ?? {}).filter((key) => key !== '__v')
+  return keys.map((key) => ({ label: key, render: (item) => formatCellValue(item[key]) }))
+}
 
 function ResourceTable({ columns, emptyMessage, resource, title }) {
   const [items, setItems] = useState([])
   const [status, setStatus] = useState('loading')
   const [error, setError] = useState('')
+  const resolvedColumns = useMemo(
+    () => (columns && columns.length > 0 ? columns : deriveColumns(items)),
+    [columns, items],
+  )
 
   useEffect(() => {
     const controller = new AbortController()
@@ -41,7 +58,7 @@ function ResourceTable({ columns, emptyMessage, resource, title }) {
     <section aria-labelledby={`${resource}-heading`}>
       <div className="page-heading">
         <div>
-          <p className="eyebrow">OctoFit records</p>
+          <p className="eyebrow">Using API endpoint: <code>{apiUrl(resource)}</code></p>
           <h1 id={`${resource}-heading`}>{title}</h1>
         </div>
         {status === 'success' && (
@@ -71,7 +88,7 @@ function ResourceTable({ columns, emptyMessage, resource, title }) {
           <table className="table table-hover align-middle mb-0">
             <thead>
               <tr>
-                {columns.map((column) => (
+                {resolvedColumns.map((column) => (
                   <th scope="col" key={column.label}>{column.label}</th>
                 ))}
               </tr>
@@ -79,7 +96,7 @@ function ResourceTable({ columns, emptyMessage, resource, title }) {
             <tbody>
               {items.map((item, index) => (
                 <tr key={item._id ?? item.id ?? `${resource}-${index}`}>
-                  {columns.map((column) => (
+                  {resolvedColumns.map((column) => (
                     <td key={column.label}>{column.render(item)}</td>
                   ))}
                 </tr>

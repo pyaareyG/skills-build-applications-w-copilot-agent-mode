@@ -1,23 +1,20 @@
 
-import { useFetch, getApiBaseUrl } from '../lib/api';
+import ResourceTable from './ResourceTable.jsx'
+
+const columns = [
+  { label: 'User', render: (item) => item.user },
+  { label: 'Type', render: (item) => item.type },
+  { label: 'Duration (min)', render: (item) => item.durationMinutes },
+  { label: 'Date', render: (item) => (item.date ? new Date(item.date).toLocaleDateString() : '') },
+]
 
 export default function Activities() {
-  const { data: activities, loading, error } = useFetch('/api/activities');
-
   return (
-    <div className="container py-5">
-      <h2>Activities</h2>
-      <p className="text-muted">Using API endpoint: <code>{`${getApiBaseUrl()}/api/activities`}</code></p>
-      {loading && <p>Loading activities...</p>}
-      {error && <div className="alert alert-danger">{error}</div>}
-      {!loading && !error && (!activities || activities.length === 0) && <p>No activities found.</p>}
-      {!loading && !error && activities && activities.length > 0 && (
-        <ul className="list-group">
-          {activities.map((item, index) => (
-            <li className="list-group-item" key={index}>{JSON.stringify(item)}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    <ResourceTable
+      resource="activities"
+      title="Activities"
+      columns={columns}
+      emptyMessage="No activities found."
+    />
+  )
 }
