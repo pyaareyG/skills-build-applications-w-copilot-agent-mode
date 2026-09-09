@@ -4,7 +4,7 @@ React 19 presentation tier for the OctoFit Tracker application. It uses Vite, Re
 
 ## Environment
 
-When running in GitHub Codespaces, `VITE_CODESPACE_NAME` must be defined in `octofit-tracker/frontend/.env.local`:
+When running in GitHub Codespaces, `VITE_CODESPACE_NAME` must be defined in `octofit-tracker/frontend/.env.local` (see `.env.example`):
 
 ```dotenv
 VITE_CODESPACE_NAME=your-codespace-name
