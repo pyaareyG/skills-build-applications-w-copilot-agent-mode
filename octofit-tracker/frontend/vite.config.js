@@ -10,4 +10,10 @@ export default defineConfig({
     // Required so the public Codespaces 5173 forwarded host is not rejected.
     allowedHosts: ['.app.github.dev'],
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/test/setup.js'],
+    css: false,
+  },
 })

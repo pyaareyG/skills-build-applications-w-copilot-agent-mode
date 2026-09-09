@@ -22,3 +22,13 @@ From the repository root, run:
 npm install --prefix octofit-tracker/frontend
 npm run dev --prefix octofit-tracker/frontend
 ```
+
+## Tests
+
+Tests use Vitest with jsdom and React Testing Library, and live in `src/test/`.
+
+```bash
+npm test --prefix octofit-tracker/frontend
+npm run test:watch --prefix octofit-tracker/frontend
+npm run test:coverage --prefix octofit-tracker/frontend
+```
