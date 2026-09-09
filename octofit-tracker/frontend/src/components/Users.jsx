@@ -1,18 +1,22 @@
-import ResourceTable from './ResourceTable.jsx'
-
-const columns = [
-  { label: 'Name', render: (item) => item.name },
-  { label: 'Email', render: (item) => item.email },
-  { label: 'Team', render: (item) => item.team ?? '—' },
-]
+import { getApiBaseUrl, useFetch } from '../lib/api';
 
 export default function Users() {
+  const { data: users, loading, error } = useFetch('/api/users');
+
   return (
-    <ResourceTable
-      resource="users"
-      title="Users"
-      columns={columns}
-      emptyMessage="No users found."
-    />
-  )
+    <div className="container py-5">
+      <h2>Users</h2>
+      <p className="text-muted">Using API endpoint: <code>{`${getApiBaseUrl()}/api/users`}</code></p>
+      {loading && <p>Loading users...</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {!loading && !error && (!users || users.length === 0) && <p>No users found.</p>}
+      {!loading && !error && users && users.length > 0 && (
+        <ul className="list-group">
+          {users.map((item, index) => (
+            <li className="list-group-item" key={index}>{JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
