@@ -1,13 +1,34 @@
-# Octofit Tracker frontend
+# OctoFit Tracker Frontend
 
-This React 19 + Vite app is the presentation tier for Octofit Tracker.
+React 19 presentation tier for the OctoFit Tracker application. It uses Vite, React Router, and Bootstrap.
 
 ## Environment
 
-Define `VITE_CODESPACE_NAME` in `octofit-tracker/frontend/.env.local` when you want the app to call the Codespaces-hosted backend.
+When running in GitHub Codespaces, `VITE_CODESPACE_NAME` must be defined in `octofit-tracker/frontend/.env.local` (see `.env.example`):
 
-```bash
+```dotenv
 VITE_CODESPACE_NAME=your-codespace-name
 ```
 
-If `VITE_CODESPACE_NAME` is unset, the app safely falls back to `http://localhost:8000`.
+Vite exposes client-side variables only when they use the `VITE_` prefix. With this variable set, API requests use `https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/[component]/`.
+
+If `VITE_CODESPACE_NAME` is unset, the frontend safely falls back to `http://localhost:8000/api/[component]/` for local development.
+
+## Development
+
+From the repository root, run:
+
+```bash
+npm install --prefix octofit-tracker/frontend
+npm run dev --prefix octofit-tracker/frontend
+```
+
+## Tests
+
+Tests use Vitest with jsdom and React Testing Library, and live in `src/test/`.
+
+```bash
+npm test --prefix octofit-tracker/frontend
+npm run test:watch --prefix octofit-tracker/frontend
+npm run test:coverage --prefix octofit-tracker/frontend
+```

@@ -3,13 +3,9 @@ import User from '../models/User';
 
 const router = Router();
 
-router.get('/', async (_req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch users' });
-  }
+router.get('/', async (_request, response) => {
+  const users = await User.find().lean();
+  response.json(users);
 });
 
 export default router;

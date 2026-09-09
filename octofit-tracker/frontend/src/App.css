@@ -1,21 +1,166 @@
-.app-logo {
-  width: 96px;
-  height: 96px;
+.app-shell {
+  min-height: 100vh;
+}
+
+.app-header {
+  background: #12372a;
+  border-bottom: 4px solid #ffcb47;
+  color: #fff;
+}
+
+.navbar {
+  align-items: center;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 1320px;
+  min-height: 78px;
+  overflow-x: auto;
+  padding: 0.65rem 1.5rem;
+}
+
+.navbar-brand {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex: 0 0 auto;
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  gap: 0.7rem;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: #ffdf83;
+}
+
+.navbar-brand img {
+  height: 48px;
   object-fit: contain;
+  width: 48px;
 }
 
-.nav-pills .nav-link.active {
-  background-color: #198754;
+.navbar-nav {
+  flex-direction: row;
+  gap: 0.25rem;
 }
 
-.endpoint-badge {
-  border: 1px solid var(--bs-border-color);
-  border-radius: 0.75rem;
-  background: var(--bs-light);
-  padding: 0.75rem 1rem;
-  max-width: 100%;
+.navbar-nav .nav-link {
+  border-bottom: 3px solid transparent;
+  color: #dbe9e3;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.75rem 0.8rem;
 }
 
-.endpoint-badge code {
-  overflow-wrap: anywhere;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link.active {
+  border-bottom-color: #ffcb47;
+  color: #fff;
+}
+
+.app-content {
+  margin: 0 auto;
+  max-width: 1320px;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+.page-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.page-heading h1 {
+  color: #12372a;
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  margin: 0;
+}
+
+.eyebrow {
+  color: #b33d21;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+}
+
+.record-count {
+  border-left: 3px solid #ffcb47;
+  color: #496158;
+  font-weight: 700;
+  padding-left: 0.75rem;
+}
+
+.data-table-wrap,
+.state-panel {
+  background: #fff;
+  border: 1px solid #dbe2dd;
+  border-radius: 8px;
+  box-shadow: 0 14px 36px rgb(18 55 42 / 8%);
+}
+
+.data-table-wrap {
+  overflow: hidden;
+}
+
+.table thead th {
+  background: #edf3ef;
+  border-bottom: 2px solid #c7d5cd;
+  color: #264b3d;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  padding: 1rem 1.25rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  color: #31443d;
+  padding: 1.05rem 1.25rem;
+}
+
+.state-panel {
+  align-items: center;
+  color: #496158;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 180px;
+  padding: 2rem;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.65rem 1rem 0;
+  }
+
+  .navbar-nav {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .navbar-nav .nav-link {
+    padding-inline: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .app-content {
+    padding: 2.25rem 1rem 4rem;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
