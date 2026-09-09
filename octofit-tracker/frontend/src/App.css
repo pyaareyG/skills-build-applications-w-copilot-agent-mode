@@ -1,0 +1,21 @@
+.app-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #198754;
+}
+
+.endpoint-badge {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 0.75rem;
+  background: var(--bs-light);
+  padding: 0.75rem 1rem;
+  max-width: 100%;
+}
+
+.endpoint-badge code {
+  overflow-wrap: anywhere;
+}
