@@ -56,55 +56,38 @@ jobs:
 
       # START: Check practical exercise
 
-      - name: Check for codespace API endpoint in Activities.jsx
+      - name: Check frontend API base URL handling
+        id: check-api-base-url
+        continue-on-error: true
+        run: |
+          grep -R "VITE_CODESPACE_NAME" octofit-tracker/frontend/src
+          grep -R -- "-8000.app.github.dev/api" octofit-tracker/frontend/src
+          grep -R "localhost:8000/api" octofit-tracker/frontend/src
+
+      - name: Check activities API endpoint wiring
         id: check-activities
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v2.0.0
-        with:
-          text-file: octofit-tracker/frontend/src/components/Activities.jsx
-          keyphrase: '-8000.app.github.dev/api/activities'
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: grep -Eq '/api/activities/|resource=["'\'']activities["'\'']' octofit-tracker/frontend/src/components/Activities.jsx
 
-      - name: Check for codespace API endpoint in Leaderboard.jsx
+      - name: Check leaderboard API endpoint wiring
         id: check-leaderboard
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v2.0.0
-        with:
-          text-file: octofit-tracker/frontend/src/components/Leaderboard.jsx
-          keyphrase: '-8000.app.github.dev/api/leaderboard'
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: grep -Eq '/api/leaderboard/|resource=["'\'']leaderboard["'\'']' octofit-tracker/frontend/src/components/Leaderboard.jsx
 
-      - name: Check for codespace API endpoint in Teams.jsx
+      - name: Check teams API endpoint wiring
         id: check-teams
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v2.0.0
-        with:
-          text-file: octofit-tracker/frontend/src/components/Teams.jsx
-          keyphrase: '-8000.app.github.dev/api/teams'
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: grep -Eq '/api/teams/|resource=["'\'']teams["'\'']' octofit-tracker/frontend/src/components/Teams.jsx
 
-      - name: Check for codespace API endpoint in Users.jsx
+      - name: Check users API endpoint wiring
         id: check-users
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v2.0.0
-        with:
-          text-file: octofit-tracker/frontend/src/components/Users.jsx
-          keyphrase: '-8000.app.github.dev/api/users'
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: grep -Eq '/api/users/|resource=["'\'']users["'\'']' octofit-tracker/frontend/src/components/Users.jsx
 
-      - name: Check for codespace API endpoint in Workouts.jsx
+      - name: Check workouts API endpoint wiring
         id: check-workouts
         continue-on-error: true
-        uses: skills/action-keyphrase-checker@v2.0.0
-        with:
-          text-file: octofit-tracker/frontend/src/components/Workouts.jsx
-          keyphrase: '-8000.app.github.dev/api/workouts'
-          minimum-occurrences: 1
-          case-sensitive: false
+        run: grep -Eq '/api/workouts/|resource=["'\'']workouts["'\'']' octofit-tracker/frontend/src/components/Workouts.jsx
 
       - name: Update comment - step results
         uses: GrantBirki/comment@v2.1.1
@@ -117,15 +100,17 @@ jobs:
           vars: |
             step_number: 5
             results_table:
-              - description: "Check activities for the API endpoint"
+              - description: "Check frontend API base URL handling"
+                passed: ${{ steps.check-api-base-url.outcome == 'success' }}
+              - description: "Check activities for API endpoint wiring"
                 passed: ${{ steps.check-activities.outcome == 'success' }}
-              - description: "Check leaderboard for the API endpoint"
+              - description: "Check leaderboard for API endpoint wiring"
                 passed: ${{ steps.check-leaderboard.outcome == 'success' }}
-              - description: "Check teams for the API endpoint"
+              - description: "Check teams for API endpoint wiring"
                 passed: ${{ steps.check-teams.outcome == 'success' }}
-              - description: "Check users for the API endpoint"
+              - description: "Check users for API endpoint wiring"
                 passed: ${{ steps.check-users.outcome == 'success' }}
-              - description: "Check workouts for the API endpoint"
+              - description: "Check workouts for API endpoint wiring"
                 passed: ${{ steps.check-workouts.outcome == 'success' }}
 
       # END: Check practical exercise
